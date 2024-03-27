@@ -1,2 +1,2 @@
-# signal-processing-instrument-for-nmr
+# SPIN
 Signal Processing Instrument for NMR. Based on the RedPitaya and Zynq7 FPGA
