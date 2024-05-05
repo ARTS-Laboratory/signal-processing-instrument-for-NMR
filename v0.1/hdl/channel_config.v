@@ -6,6 +6,7 @@ module channel_config (
     output wire t_valid
 );
 
+
 assign t_valid = 1'b1;
 assign combined_data = {2'b00, data_src_b[15:2], 2'b00, data_src_a[15:2]};
 
