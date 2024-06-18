@@ -53,13 +53,16 @@ def plot_voltages(voltages, title):
     plt.show()
 
 
-smooth_path = './smoothed_data.txt'
+proc_path = './processed_data.txt'
 raw_path = './ndecane_1_29_27608.txt'
 
 raw = parse_dataset(raw_path)
-smooth = parse_dataset(smooth_path)
+proc = parse_dataset(proc_path)
+
+print(f"raw data length: {len(raw)}")
+print(f"processed data length: {len(proc)}")
 plot_voltages(raw[:20000], 'Raw')
-plot_voltages(smooth[:20000], 'Smooth Data')
+plot_voltages(proc[:20000], 'Processed Data')
 
 
 
