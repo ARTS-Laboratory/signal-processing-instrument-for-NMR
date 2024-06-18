@@ -59,7 +59,7 @@ raw_path = './ndecane_1_29_27608.txt'
 raw = parse_dataset(raw_path)
 smooth = parse_dataset(smooth_path)
 plot_voltages(raw[:20000], 'Raw')
-plot_voltages(smooth[:20000], 'Smooth')
+plot_voltages(smooth[:20000], 'Smooth Data')
 
 
 
