@@ -69,3 +69,18 @@ DataPoint *read_data(const char *fname, int *num_data_points, DataPoint *data)
     return data;
 }
 
+void write_data(const char *fname, DataPoint *data, int num_data_points)
+{
+    FILE *fp = fopen(fname, "w");
+    if (fp == NULL)
+    {
+        fprintf(stderr, "Could not open file %s\n", fname);
+        return;
+    }
+    for (int i = 0; i < num_data_points; i++)
+    {
+        fprintf(fp, "%lf\t%lf\n", data[i].time, data[i].volt);
+    }
+    fclose(fp);
+}
+

@@ -6,11 +6,10 @@
 #include "features.h"
 #include "fileio.h"
 
+extern void smooth_data(DataPoint* data, int size, int window_size);
+
 int main(int argc, char *argv[])
 {
-    // char fname[] = "ndecane_1_29_27608.txt";
-    // gets filename as argument
-
     if (argc != 2)
     {
       fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
@@ -35,10 +34,21 @@ int main(int argc, char *argv[])
 
     data = read_data(fname, &num_data_points, data);
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 25; i++)
     {
         printf("Timestamp: %lf, Voltage: %lf mV\n", data[i].time, data[i].volt);
     }
+
+    smooth_data(data, num_data_points, 5);
+    printf("Data smoothed.\n");
+    for (int i = 0; i < 25; i++)
+    {
+      printf("Timestamp: %lf, Voltage: %lf mV\n", data[i].time, data[i].volt);
+    }
+
+    char *outfname = "smoothed_data.txt";
+    printf("Writing smoothed data to %s\n", outfname);
+    write_data(outfname, data, num_data_points);
 
     free(data);
 

@@ -3,13 +3,13 @@
 #include <math.h>
 #include "dtypes.h"
 
-#define THRESHOLD 1000
-#define WINDOW_SIZE 5
+#define THRESHOLD 500
+#define WINDOW_SIZE 10
 
-void smooth_data(int *data, int size, int window_size)
+void smooth_data(DataPoint* data, int size, int window_size)
 {    // smooth data using a simple moving average
 
-    int *smoothed = malloc(size * sizeof(int));
+    DataPoint *smoothed = malloc(size * sizeof(DataPoint));
     if (smoothed == NULL)
     {
         fprintf(stderr, "Memory allocation error.\n");
@@ -24,11 +24,12 @@ void smooth_data(int *data, int size, int window_size)
         {
             if (i + j >= 0 && i + j < size)
             {
-                sum += data[i + j];
+                sum += data[i + j].volt;
                 count++;
             }
         }
-        smoothed[i] = sum / count;
+        smoothed[i].volt = sum / count;
+        smoothed[i].time = data[i].time;
     }
 
     for (int i = 0; i < size; i++)
