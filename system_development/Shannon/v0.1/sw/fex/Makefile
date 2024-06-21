@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -O2 -lm
+CFLAGS = -Wall -Wextra -O2 -lm -g
 TARGET = features
 SRCS = features.c
 

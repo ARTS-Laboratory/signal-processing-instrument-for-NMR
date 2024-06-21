@@ -42,16 +42,26 @@ def parse_dataset(filename):
 
     return voltages
 
-def plot_voltages(voltages, title):
-    plt.figure(figsize=(3.5, 3))
-    time_data = [i * 1e-3 for i in range(len(voltages))]
-    plt.plot(time_data, voltages, color="black", linewidth=0.5)
-    plt.title(title)
+def plot_voltages(raw_voltages, proc_voltages):
+    time_data_raw = [i * 1e-3 for i in range(len(raw_voltages))]
+    time_data_proc = [i * 1e-3 for i in range(len(proc_voltages))]
+
+    plt.figure(figsize=(7, 3))
+
+    plt.subplot(1, 2, 1)
+    plt.plot(time_data_raw, raw_voltages, color="black", linewidth=0.5)
+    plt.title('Raw')
     plt.xlabel("time (ms)")
     plt.ylabel("amplitude (a.u.)")
+
+    plt.subplot(1, 2, 2)
+    plt.plot(time_data_proc, proc_voltages, color="black", linewidth=0.5)
+    plt.title('Processed Data')
+    plt.xlabel("time (ms)")
+    plt.ylabel("amplitude (a.u.)")
+
     plt.tight_layout()
     plt.show()
-
 
 proc_path = './processed_data.txt'
 raw_path = './ndecane_1_29_27608.txt'
@@ -61,8 +71,4 @@ proc = parse_dataset(proc_path)
 
 print(f"raw data length: {len(raw)}")
 print(f"processed data length: {len(proc)}")
-plot_voltages(raw[:20000], 'Raw')
-plot_voltages(proc[:20000], 'Processed Data')
-
-
-
+plot_voltages(raw[:20000], proc[:20000])

@@ -49,7 +49,7 @@ DataPoint *read_data(const char *fname, int *num_data_points, DataPoint *data)
     int count = 0;
     while (fgets(line, sizeof(line), fp))
     {
-        if (sscanf(line, "%lf\t%lf", &data[count].time, &data[count].volt) == 2)
+        if (sscanf(line, "%f\t%f", &data[count].time, &data[count].volt) == 2)
         {
             count++;
         } else {
@@ -79,7 +79,7 @@ void write_data(const char *fname, DataPoint *data, int num_data_points)
     }
     for (int i = 0; i < num_data_points; i++)
     {
-        fprintf(fp, "%lf\t%lf\n", data[i].time, data[i].volt);
+        fprintf(fp, "%f\t%f\n", data[i].time, data[i].volt);
     }
     fclose(fp);
 }

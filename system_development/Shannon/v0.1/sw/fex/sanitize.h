@@ -5,7 +5,7 @@
 
 #define THRESHOLD 500
 #define WINDOW_SIZE 125
-#define ZERO_RANGE 124
+#define ZERO_RANGE 150
 
 Pulse local_extrema(DataPoint* data)
 {
@@ -18,7 +18,7 @@ Pulse local_extrema(DataPoint* data)
         return ext;
 }
 
-Pulse* remove_pulses(DataPoint* data, int size, Pulse* pulse_buffer)
+void remove_pulses(DataPoint* data, int size, Pulse* pulse_buffer)
 {
     DataPoint* window_buffer = malloc(WINDOW_SIZE * sizeof(DataPoint));
     if (window_buffer == NULL)
@@ -55,7 +55,6 @@ Pulse* remove_pulses(DataPoint* data, int size, Pulse* pulse_buffer)
     }
 
     free(window_buffer);
-    return pulse_buffer;
 }
 
 /* usage

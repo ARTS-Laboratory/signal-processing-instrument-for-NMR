@@ -5,14 +5,35 @@
 
 typedef struct
 {
-    double time;
-    double volt;
+    float time;
+    float volt;
 } DataPoint;
 
-typedef struct Pulse
+typedef struct
 {
-    double value;
+    float value;
     int index;
 } Pulse;
+
+typedef struct Echoes
+{
+    DataPoint* data;
+    int echo_size;
+    int len;
+} Echoes;
+
+typedef struct
+{
+    float amplitude;
+    float rate;
+    float mean;
+    float std;
+    float rms;
+    float shape;
+    float kurtosis;
+    float skewness;
+    float impulse;
+    float crest;
+} Features;
 
 #endif //DTYPES_H
