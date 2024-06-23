@@ -14,38 +14,53 @@
 // crest factor: ratio of amplitude to RMS
 
 
-void find_echoes(DataPoint* data, int size, Pulse* pulse_buffer, Echoes* echo_buffer)
+void find_echoes(int size, Pulse* pulse_buffer, uint16_t zone_size, EchoInformation* echo_info)
 {
   // pulse locations are stored in pulse_buffer, so echos are found
   // between each pulse
-  uint16_t e_index = 0;
+  int e_count = 0;
   for (int i = 0; i < size; i++)
   {
     if (pulse_buffer[i].index != 0)
     {
-      int j = i + 1;
+      int j = i + zone_size;
       while (j < size && pulse_buffer[j].index == 0){ j++; }
 
       if (j < size)
       {
-        for (int k = i; k < j; k++)
-        {
-          echo_buffer[e_index].data[k - i] = data[k];
-        }
-        echo_buffer[e_index].echo_size = j - i;
-        e_index++;
-        echo_buffer->len = e_index;
+        echo_info[e_count].start = i;
+        echo_info[e_count].end = j;
+        e_count++;
       }
     }
   }
+  printf("Start and end indecies found for %d echoes.\n", e_count);
 }
 
-// takes average of first 10 echos
-float amplitude(DataPoint* data, int n) {
+// use location info from echo_info to find max of first 10 echos, then take average to calculate amplitude
+void amplitude(int size, DataPoint* data, EchoInformation* echo_info, Features* features)
+{
   float sum = 0;
-  for (int i = 0; i < 10; i++) {
-    sum += data[i].volt;
+  for (int i = 0; i < 10; i++)
+  {
+    int start = echo_info[i].start;
+    int end = echo_info[i].end;
+    float max = data[start].volt;
+    for (int j = start; j < end; j++)
+    {
+      if (data[j].volt > max)
+      {
+        max = data[j].volt;
+      }
+    }
+    sum += max;
   }
-  return sum / 10;
+  features->amplitude = sum / 10;
+  printf("Amplitude: %f\n", features->amplitude);
+}
+
+T2_Peaks* rate_t2(int num_echos, DataPoint* data, EchoInformation* echo_info, Features* features)
+{
+  
 }
 

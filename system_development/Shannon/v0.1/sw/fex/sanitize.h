@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "dtypes.h"
+#include <stdint.h>
 
 #define THRESHOLD 500
 #define WINDOW_SIZE 125
@@ -55,6 +56,45 @@ void remove_pulses(DataPoint* data, int size, Pulse* pulse_buffer)
     }
 
     free(window_buffer);
+}
+
+uint16_t information_prestep(int num_data_points, Pulse* pulse_buffer)
+{
+    int p_count = 0;
+    int* echo_zones = calloc(num_data_points, sizeof(int));
+    int echo_zone_size = 0;
+    int echo_zone_count = 0;
+
+    for (int i = 0; i < num_data_points; i++)
+    {
+      pulse_buffer[i].index != 0 ? p_count++ : 0;
+    }
+    printf("Number of pulses: %d\n", p_count);
+
+    for (int i = 0; i < num_data_points; i++)
+    {
+      if (pulse_buffer[i].index != 0)
+      {
+        echo_zones[echo_zone_count] = echo_zone_size;
+        echo_zone_size = 0;
+        echo_zone_count++;
+      }
+      else
+      {
+        echo_zone_size++;
+      }
+    }
+    // find average echo zone size
+    int sum = 0;
+    for (int i = 0; i < echo_zone_count; i++)
+    {
+      sum += echo_zones[i];
+    }
+    uint16_t average_echo_zone_size = (float)sum / echo_zone_count;
+    printf("Average echo zone size: %d\n", average_echo_zone_size);
+    printf("Number of echo zones: %d\n", echo_zone_count);
+    free(echo_zones);
+    return floor(average_echo_zone_size);
 }
 
 /* usage

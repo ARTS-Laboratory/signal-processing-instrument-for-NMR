@@ -15,12 +15,17 @@ typedef struct
     int index;
 } Pulse;
 
-typedef struct Echoes
+typedef struct
 {
-    DataPoint* data;
-    int echo_size;
-    int len;
-} Echoes;
+    int start;
+    int end;
+} EchoInformation;
+
+typedef struct 
+{
+    float time;
+    float volt;
+} T2_Peaks
 
 typedef struct
 {

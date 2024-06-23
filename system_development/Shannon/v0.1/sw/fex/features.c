@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <math.h>
 #include "dtypes.h"
 #include "sanitize.h"
@@ -8,7 +9,9 @@
 
 extern void smooth_data(DataPoint* data, int size, int window_size);
 extern void remove_pulses(DataPoint* data, int size, Pulse* pulse_buffer);
-extern void find_echoes(DataPoint* data, int size, Pulse* pulse_buffer, Echoes* echo_buffer);
+extern uint16_t information_prestep(int num_data_points, Pulse* pulse_buffer);
+extern void find_echoes(int size, Pulse* pulse_buffer, uint16_t zone_size, EchoInformation* echo_info);
+extern void amplitude(int size, DataPoint* data, EchoInformation* echo_info, Features* features);
 
 int main(int argc, char *argv[])
 {
@@ -29,9 +32,9 @@ int main(int argc, char *argv[])
 
     DataPoint* data = (DataPoint *)malloc(num_data_points * sizeof(DataPoint));
     Pulse* pulse_buffer = calloc(num_data_points, sizeof(Pulse));                     // calloc to initialize all values to 0
-    Echoes* echo_buffer = calloc(num_data_points, sizeof(Echoes));
-    echo_buffer->data = (DataPoint *)calloc(num_data_points, sizeof(DataPoint));
-    if (data == NULL || pulse_buffer == NULL || echo_buffer == NULL)
+    EchoInformation* echo_info = calloc(3162, sizeof(EchoInformation));
+    Features* features = calloc(10, sizeof(Features));
+    if (data == NULL || pulse_buffer == NULL)
     {
         fprintf(stderr, "Memory allocation failed.\n");
         return 1;
@@ -40,16 +43,12 @@ int main(int argc, char *argv[])
     data = read_data(fname, &num_data_points, data);
 
     remove_pulses(data, num_data_points, pulse_buffer);
-    find_echoes(data, num_data_points, pulse_buffer, echo_buffer);
+
+    uint16_t zone_size = information_prestep(num_data_points, pulse_buffer);
+    find_echoes(num_data_points, pulse_buffer, zone_size, echo_info);
+    amplitude(num_data_points, data, echo_info, features);
 
     printf("Data processed.\n");
-    int p_count = 0;
-    for (int i = 0; i < num_data_points; i++)
-    {
-      pulse_buffer[i].index != 0 ? p_count++ : 0;
-    }
-    printf("Number of pulses: %d\n", p_count);
-    printf("Number of echoes: %d\n", echo_buffer->len);
 
     char *outfname = "processed_data.txt";
     printf("Writing processed data to %s\n", outfname);
@@ -57,7 +56,7 @@ int main(int argc, char *argv[])
 
     free(data);
     free(pulse_buffer);
-    free(echo_buffer);
+    free(echo_info);
 
     return 0;
 }
