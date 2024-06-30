@@ -59,8 +59,10 @@ void amplitude(int size, DataPoint* data, EchoInformation* echo_info, Features* 
   printf("Amplitude: %f\n", features->amplitude);
 }
 
-T2_Peaks* rate_t2(int num_echos, DataPoint* data, EchoInformation* echo_info, Features* features)
-{
-  
-}
+/**/
+/* T2_Peaks* rate_t2(int num_echos, DataPoint* data, EchoInformation* echo_info, Features* features) */
+/* { */
+/**/
+/* } */
+
 

@@ -21,11 +21,11 @@ typedef struct
     int end;
 } EchoInformation;
 
-typedef struct 
+typedef struct
 {
     float time;
     float volt;
-} T2_Peaks
+} T2_Peaks;
 
 typedef struct
 {

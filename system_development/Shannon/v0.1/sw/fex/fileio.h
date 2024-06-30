@@ -57,7 +57,7 @@ DataPoint *read_data(const char *fname, int *num_data_points, DataPoint *data)
         }
     }
 
-    printf("Read %d data points.\n", count);
+//    printf("Read %d data points.\n", count);
 
     fclose(fp);
     if (count != *num_data_points)
