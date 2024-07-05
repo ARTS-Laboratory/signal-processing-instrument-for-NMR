@@ -84,3 +84,12 @@ void write_data(const char *fname, DataPoint *data, int num_data_points)
     fclose(fp);
 }
 
+void write_peaks_to_file(int num_echos, T2_Peaks* peaks)
+{
+  FILE* file = fopen("peaks.txt", "w");
+  for (int i = 0; i < num_echos; i++)
+  {
+    fprintf(file, "%f\t%f\n", peaks[i].time, peaks[i].volt);
+  }
+  fclose(file);
+}

@@ -10,8 +10,11 @@
 extern void smooth_data(DataPoint* data, int size, int window_size);
 extern void remove_pulses(DataPoint* data, int size, Pulse* pulse_buffer);
 extern uint16_t information_prestep(int num_data_points, Pulse* pulse_buffer);
-extern void find_echoes(int size, Pulse* pulse_buffer, uint16_t zone_size, EchoInformation* echo_info);
-extern void amplitude(int size, DataPoint* data, EchoInformation* echo_info, Features* features);
+extern int find_echoes(int size, Pulse* pulse_buffer, uint16_t zone_size, EchoInformation* echo_info);
+extern void amplitude(DataPoint* data, EchoInformation* echo_info, Features* features);
+extern T2_Peaks* t2_log(int num_echos, DataPoint* data, EchoInformation* echo_info, T2_Peaks* peaks, Features* features);
+extern void write_peaks_to_file(int num_echos, T2_Peaks* peaks);
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -43,17 +46,23 @@ int main(int argc, char *argv[])
     remove_pulses(data, num_data_points, pulse_buffer);
 
     uint16_t zone_size = information_prestep(num_data_points, pulse_buffer);
-    find_echoes(num_data_points, pulse_buffer, zone_size, echo_info);
-    amplitude(num_data_points, data, echo_info, features);
+    int num_echos = find_echoes(num_data_points, pulse_buffer, zone_size, echo_info);
+
+    T2_Peaks* peaks = (T2_Peaks*)malloc(num_echos * sizeof(T2_Peaks));
+
+    amplitude(data, echo_info, features);
+    T2_Peaks* log_peaks = t2_log(num_echos, data, echo_info, peaks, features);
 
     char *outfname = "processed_data.txt";
     printf("Writing processed data to %s\n", outfname);
     write_data(outfname, data, num_data_points);
+    printf("Writing peaks to file...\n");
+    write_peaks_to_file(num_echos, log_peaks);
 
-    free(data);
-    free(pulse_buffer);
     free(echo_info);
     free(features);
+    free(data);
+    free(log_peaks);
 
     return 0;
 }

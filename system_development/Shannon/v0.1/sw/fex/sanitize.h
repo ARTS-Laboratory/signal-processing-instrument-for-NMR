@@ -96,17 +96,3 @@ uint16_t information_prestep(int num_data_points, Pulse* pulse_buffer)
     free(echo_zones);
     return floor(average_echo_zone_size);
 }
-
-/* usage
-
-    const char *input_filename = "data.txt";
-    const char *output_filename = "cleaned_data.txt";
-    int size;
-    int *data = read_data(input_filename, &size);
-
-    smooth_data(data, size, WINDOW_SIZE);
-    remove_pulses(data, size, THRESHOLD);
-    write_data(output_filename, data, size);
-
-    free(data);
-*/

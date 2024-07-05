@@ -31,6 +31,7 @@ typedef struct
 {
     float amplitude;
     float rate;
+    float noise_begin;
     float mean;
     float std;
     float rms;
