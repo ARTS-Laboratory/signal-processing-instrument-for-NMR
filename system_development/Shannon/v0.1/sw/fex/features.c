@@ -3,14 +3,17 @@
 #include <stdint.h>
 #include <math.h>
 #include "include/dtypes.h"
-#include "include/sanitize.h"
+#include "include/preprocessing.h"
 #include "include/features.h"
 #include "include/fileio.h"
 
-extern void remove_pulses(DataPoint* data, int size, Pulse* pulse_buffer, Echo** echoes, int* echo_count);
+//#define CSV_TEST 1
+
+extern void remove_pulses(DataPoint* data, int size, Echo** echoes, int* echo_count);
 extern void write_peaks_to_file(int num_echos, T2_Peaks* peaks);
 extern DataPoint* read_csv_data(const char* fname, int* num_data_points, DataPoint* data);
-extern T2_Peaks* t2_log_csv(int num_echos, DataPoint* peaks, Features* features);
+extern T2_Peaks* t2_log(DataPoint* data, Echo* echo_info, int echo_count, Features* features);
+extern T2_Peaks* t2_log_test_csv(int num_echos, DataPoint* peaks, Features* features);
 
 int main(int argc, char *argv[])
 {
@@ -31,7 +34,6 @@ int main(int argc, char *argv[])
 
     int echo_count;
     DataPoint* data = (DataPoint *)malloc(num_data_points * sizeof(DataPoint));
-    Pulse* pulse_buffer = calloc(num_data_points, sizeof(Pulse));                     // calloc to initialize all values to 0
     Echo* echoes = NULL;
     Features* features = calloc(10, sizeof(Features));
     if (data == NULL || features == NULL)
@@ -40,19 +42,31 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    #ifdef CSV_TEST
+
+    printf("Running CSV test...\n");
+    data = read_csv_data(fname, &num_data_points, data);
+    T2_Peaks* log_peaks = t2_log_test_csv(num_data_points, data, features);
+    printf("Writing peaks to file...\n");
+    write_peaks_to_file(num_data_points, log_peaks);
+
+    return 0;
+
+    #endif
+
     data = read_data(fname, &num_data_points, data);
-    remove_pulses(data, num_data_points, pulse_buffer, &echoes, &echo_count);
-    // T2_Peaks* log_peaks = t2_log_csv(num_data_points, data, features);
+    remove_pulses(data, num_data_points, &echoes, &echo_count);
+    T2_Peaks* peaks = t2_log(data, echoes, echo_count, features);
+    // T2_Peaks* log_peaks = t2_log_test_csv(num_data_points, data, features);
 
     char *outfname = "./data/processed_data.txt";
     printf("Writing processed data to %s\n", outfname);
     write_data(outfname, data, num_data_points);
-    // printf("Writing peaks to file...\n");
-    // write_peaks_to_file(num_data_points, log_peaks);
+    printf("Writing peaks to file...\n");
+    write_peaks_to_file(echo_count, peaks);
 
     free(features);
     free(data);
-    free(pulse_buffer);
     free(echoes);
     //free(log_peaks);
 

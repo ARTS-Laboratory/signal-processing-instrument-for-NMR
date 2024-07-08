@@ -11,18 +11,11 @@ typedef struct
 
 typedef struct
 {
-    float value;
-    int index;
-} Pulse;
-
-typedef struct
-{
     int start_index;
     int end_index;
-    int size;
 } Echo;
 
-typedef struct 
+typedef struct
 {
     int index;
     float value;
