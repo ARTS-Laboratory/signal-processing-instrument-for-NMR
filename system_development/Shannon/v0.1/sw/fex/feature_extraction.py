@@ -25,7 +25,7 @@ def parse_dataset(filename):
         parts = line.split("\t")
         if len(parts) >= 2:
             try:
-                voltage = -float(parts[1])
+                voltage = float(parts[1])
                 voltages.append(voltage)
             except ValueError:
                 print(f"Skipping line due to conversion error: {line}")
@@ -66,9 +66,9 @@ def plot_voltages(raw_voltages, proc_voltages, peak_voltages):
     plt.tight_layout()
     plt.show()
 
-proc_path = './processed_data.txt'
-raw_path = './ndecane_1_29_27608.txt'
-peak_path = './peaks.txt'
+proc_path = './data/processed_data.txt'
+raw_path = './data/ndecane_1_29_27608.txt'
+peak_path = './data/peaks.txt'
 
 raw = parse_dataset(raw_path)
 proc = parse_dataset(proc_path)

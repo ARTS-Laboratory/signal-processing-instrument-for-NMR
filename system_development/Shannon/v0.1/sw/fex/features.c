@@ -2,18 +2,15 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <math.h>
-#include "dtypes.h"
-#include "sanitize.h"
-#include "features.h"
-#include "fileio.h"
+#include "include/dtypes.h"
+#include "include/sanitize.h"
+#include "include/features.h"
+#include "include/fileio.h"
 
-extern void smooth_data(DataPoint* data, int size, int window_size);
-extern void remove_pulses(DataPoint* data, int size, Pulse* pulse_buffer);
-extern uint16_t information_prestep(int num_data_points, Pulse* pulse_buffer);
-extern int find_echoes(int size, Pulse* pulse_buffer, uint16_t zone_size, EchoInformation* echo_info);
-extern void amplitude(DataPoint* data, EchoInformation* echo_info, Features* features);
-extern T2_Peaks* t2_log(int num_echos, DataPoint* data, EchoInformation* echo_info, T2_Peaks* peaks, Features* features);
+extern void remove_pulses(DataPoint* data, int size, Pulse* pulse_buffer, Echo** echoes, int* echo_count);
 extern void write_peaks_to_file(int num_echos, T2_Peaks* peaks);
+extern DataPoint* read_csv_data(const char* fname, int* num_data_points, DataPoint* data);
+extern T2_Peaks* t2_log_csv(int num_echos, DataPoint* peaks, Features* features);
 
 int main(int argc, char *argv[])
 {
@@ -32,37 +29,32 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    int echo_count;
     DataPoint* data = (DataPoint *)malloc(num_data_points * sizeof(DataPoint));
     Pulse* pulse_buffer = calloc(num_data_points, sizeof(Pulse));                     // calloc to initialize all values to 0
-    EchoInformation* echo_info = calloc(3162, sizeof(EchoInformation));
+    Echo* echoes = NULL;
     Features* features = calloc(10, sizeof(Features));
-    if (data == NULL || pulse_buffer == NULL)
+    if (data == NULL || features == NULL)
     {
         fprintf(stderr, "Memory allocation failed.\n");
         return 1;
     }
 
     data = read_data(fname, &num_data_points, data);
-    remove_pulses(data, num_data_points, pulse_buffer);
+    remove_pulses(data, num_data_points, pulse_buffer, &echoes, &echo_count);
+    // T2_Peaks* log_peaks = t2_log_csv(num_data_points, data, features);
 
-    uint16_t zone_size = information_prestep(num_data_points, pulse_buffer);
-    int num_echos = find_echoes(num_data_points, pulse_buffer, zone_size, echo_info);
-
-    T2_Peaks* peaks = (T2_Peaks*)malloc(num_echos * sizeof(T2_Peaks));
-
-    amplitude(data, echo_info, features);
-    T2_Peaks* log_peaks = t2_log(num_echos, data, echo_info, peaks, features);
-
-    char *outfname = "processed_data.txt";
+    char *outfname = "./data/processed_data.txt";
     printf("Writing processed data to %s\n", outfname);
     write_data(outfname, data, num_data_points);
-    printf("Writing peaks to file...\n");
-    write_peaks_to_file(num_echos, log_peaks);
+    // printf("Writing peaks to file...\n");
+    // write_peaks_to_file(num_data_points, log_peaks);
 
-    free(echo_info);
     free(features);
     free(data);
-    free(log_peaks);
+    free(pulse_buffer);
+    free(echoes);
+    //free(log_peaks);
 
     return 0;
 }
