@@ -120,8 +120,9 @@ T2_Peaks* t2_log(DataPoint* data, Echo* echo_info, int echo_count, Features* fea
         }
         previous_slope = slope;
     }
-    features->noise_begin = data[echo_info[noise_start_index].start_index].time;
-    printf("Noise starts at: %f seconds\n", features->noise_begin);
+    features->noise_begin_t = data[echo_info[noise_start_index].start_index].time;
+    features->noise_begin_i = noise_start_index;
+    printf("Noise starts at: %f seconds\n", features->noise_begin_t);
 
     return log_peaks;
 }
@@ -168,8 +169,9 @@ T2_Peaks* t2_log_test_csv(int num_echos, DataPoint* peaks, Features* features)
         }
         previous_slope = slope;
     }
-    features->noise_begin = peaks[noise_start_index].time;
-    printf("Noise starts at: %f seconds\n", features->noise_begin);
+    features->noise_begin_t = peaks[noise_start_index].time;
+    features->noise_begin_i = noise_start_index;
+    printf("Noise starts at: %f seconds\n", features->noise_begin_t);
 
     return log_peaks;
 

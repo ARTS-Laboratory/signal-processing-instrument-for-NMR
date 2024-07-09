@@ -7,10 +7,10 @@
 #include "include/features.h"
 #include "include/fileio.h"
 
-//#define CSV_TEST 1
+#define CSV_TEST 1
 
 extern void remove_pulses(DataPoint* data, int size, Echo** echoes, int* echo_count);
-extern void write_peaks_to_file(int num_echos, T2_Peaks* peaks);
+extern void write_peaks_to_file(int num_echos, T2_Peaks* peaks, const char* fname);
 extern DataPoint* read_csv_data(const char* fname, int* num_data_points, DataPoint* data);
 extern T2_Peaks* t2_log(DataPoint* data, Echo* echo_info, int echo_count, Features* features);
 extern T2_Peaks* t2_log_test_csv(int num_echos, DataPoint* peaks, Features* features);
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     data = read_csv_data(fname, &num_data_points, data);
     T2_Peaks* log_peaks = t2_log_test_csv(num_data_points, data, features);
     printf("Writing peaks to file...\n");
-    write_peaks_to_file(num_data_points, log_peaks);
+    write_peaks_to_file(num_data_points, log_peaks, fname);
 
     return 0;
 
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     printf("Writing processed data to %s\n", outfname);
     write_data(outfname, data, num_data_points);
     printf("Writing peaks to file...\n");
-    write_peaks_to_file(echo_count, peaks);
+    write_peaks_to_file(echo_count, peaks, fname);
 
     free(features);
     free(data);

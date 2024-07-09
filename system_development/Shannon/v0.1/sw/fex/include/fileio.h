@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include "dtypes.h"
 
 int line_count(const char *fname)
@@ -122,9 +123,12 @@ void write_data(const char *fname, DataPoint *data, int num_data_points)
     fclose(fp);
 }
 
-void write_peaks_to_file(int num_echos, T2_Peaks* peaks)
+void write_peaks_to_file(int num_echos, T2_Peaks* peaks, const char* fname)
 {
-  FILE* file = fopen("./data/peaks.txt", "w");
+  char filename[100];
+  strcpy(filename, fname);
+  strcat(filename, "_peaks.csv");
+  FILE* file = fopen(filename, "w");
   for (int i = 0; i < num_echos; i++)
   {
     fprintf(file, "%f\t%f\n", peaks[i].time, peaks[i].volt);
