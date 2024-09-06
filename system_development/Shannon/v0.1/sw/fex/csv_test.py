@@ -72,5 +72,6 @@ if __name__ == "__main__":
             print(f"Could not find noise start time in the C program output for {csv_file}.")
 
     plt.tight_layout()
+    plt.savefig('./plots/log_truncation.jpg', dpi=300)
     plt.show()
 

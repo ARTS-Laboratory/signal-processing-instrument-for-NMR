@@ -12,10 +12,12 @@ module axis_constant #
 
   // Master side
   output wire [AXIS_TDATA_WIDTH-1:0] m_axis_tdata,
+  output wire [AXIS_TDATA_WIDTH-1:0] m_axis_tdata2,
   output wire                        m_axis_tvalid
 );
 
   assign m_axis_tdata = cfg_data;
+  assign m_axis_tdata2 = cfg_data;
   assign m_axis_tvalid = 1'b1;
 
 endmodule

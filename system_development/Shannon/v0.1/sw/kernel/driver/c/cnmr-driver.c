@@ -1,6 +1,7 @@
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
@@ -79,7 +80,6 @@ int main ()
 
   printf("sysconf(_SC_PAGESIZE) = %d\n", sysconf(_SC_PAGESIZE));
 
-
   slcr = mmap(NULL, sysconf(_SC_PAGESIZE), PROT_READ|PROT_WRITE, MAP_SHARED, mmapfd, 0xF8000000);
   axi_hp0 = mmap(NULL, sysconf(_SC_PAGESIZE), PROT_READ|PROT_WRITE, MAP_SHARED, mmapfd, 0xF8008000);
   sts = mmap(NULL, sysconf(_SC_PAGESIZE), PROT_READ|PROT_WRITE, MAP_SHARED, mmapfd, 0x40001000);
@@ -126,15 +126,28 @@ int main ()
 
   while(!interrupted)
   {
-    // /* enter reset mode */
+    printf("interrupt, entering reset mode.\n");
+    /* enter reset mode */
     *(uint8_t *)(cfg + 0) &= ~1;
     usleep(100);
     *(uint8_t *)(cfg + 0) &= ~2;
     usleep(100);
 
-    /* reset dac */
-    *(uint32_t *)(cfg + 8) = 0;
+    *(uint32_t *)(cfg + 4) = 0;
+    usleep(100);
+    *(uint32_t *)(cfg + 8) &= ~1;
+    usleep(100);
 
+    /* output nothing to reset phase accumulator */
+    *(uint8_t *)(cfg + 8) |= 1;
+    usleep(1000);
+    *(uint32_t *)(cfg + 8) &= ~1;
+    usleep(100);
+
+    /* print status of reset registers */
+    printf("cfg offset 0 : %08x\n", *(uint8_t *)(cfg + 0));
+    printf("cfg offset 4 : %08x\n", *(uint32_t *)(cfg + 4));
+    printf("cfg offset 8 : %08x\n", *(uint32_t *)(cfg + 8));
 
     if((sockClient = accept(sockServer, NULL, NULL)) < 0)
     {
@@ -142,35 +155,71 @@ int main ()
       return 1;
     }
 
-    printf("connected. IRQ\n");
+    printf("connected.\n");
+
+    uint8_t cmd_type;
+    bool begin = false;
+
+    while(!begin)
+    {
+      if(recv(sockClient, &cmd_type, sizeof(cmd_type), MSG_WAITALL) <= 0) break;
+
+      switch(cmd_type)
+      {
+        case 1: {
+          uint32_t fixed_point;
+          float freq;
+          recv(sockClient, &fixed_point, sizeof(fixed_point), MSG_WAITALL);
+          fixed_point = ntohl(fixed_point);
+          freq = (float)fixed_point / 1e6;
+          _inc = phase_increment(freq, 100000000.0, 32);
+          printf("Calculated %08x phase increment for frequency %f \r\n", _inc, freq);
+          *(uint32_t *)(cfg + 4) = _inc;
+          break;
+        }
+        case 2: {
+          uint16_t user_delay;
+          recv(sockClient, &user_delay, sizeof(user_delay), MSG_WAITALL);
+          delay = ntohs(user_delay);
+          printf("Delay set to: %d cycles\n", delay);
+          *(uint8_t *)(cfg + 12) = delay;
+          break;
+        }
+        case 3: {
+          uint16_t user_tau;
+          uint16_t tau;
+          recv(sockClient, &user_tau, sizeof(user_tau), MSG_WAITALL);
+          tau = ntohs(user_tau);
+          printf("Tau set to: %d cycles\n", tau);
+          *(uint16_t *)(cfg + 16) = tau;
+          break;
+        }
+        case 4: {
+          uint32_t user_tau_l;
+          uint32_t tau_l;
+          recv(sockClient, &user_tau_l, sizeof(user_tau_l), MSG_WAITALL);
+          tau_l = ntohl(user_tau_l);
+          printf("Tau low set to: %d cycles\n", tau_l);
+          *(uint32_t *)(cfg + 20) = tau_l;
+          break;
+        }
+        case 5: {
+          begin = true;
+          break;
+        }
+      }
+    }
 
     limit = 32*1024;
 
     signal(SIGINT, signal_handler);
 
-    printf("Enter Frequency in MHz: \n");
-    scanf("%le", &user_inc);
-
-    _inc = phase_increment(user_inc, 125000000.0, 32);
-		printf("Calculated %08x phase increment for frequency %d \r\n", _inc, user_inc);
-
-    printf("Enter CPMG delay in clock cycles (125MHz): \n");
-    scanf("%d", &user_delay);
-
-    printf("Delay set to: %d cycles\n", user_delay);
-
-    delay = user_delay;
-
-    *(uint8_t *)(cfg + 12) = delay;
-    /* enter normal operating mode */
-    *(uint8_t *)(cfg + 0) |= 3;
-    /* write inc to dac c1 */
-    *(uint32_t *)(cfg + 4) = _inc;
+		  /* enter normal operating mode */
+		  *(uint8_t *)(cfg + 0) |= 3;
+      *(uint8_t *)(cfg + 8) |= 1;
 
     while(!interrupted)
     {
-      *(uint8_t *)(cfg + 8) = 1;
-
       /* read ram writer position */
       position = *(uint32_t *)(sts + 12);
 
@@ -196,6 +245,9 @@ int main ()
   *(uint8_t *)(cfg + 0) &= ~1;
   usleep(100);
   *(uint8_t *)(cfg + 0) &= ~2;
+  usleep(100);
+  *(uint32_t *)(cfg + 8) &= ~1;
+  usleep(100);
 
   close(sockServer);
 

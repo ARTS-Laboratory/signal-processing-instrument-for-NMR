@@ -8,6 +8,6 @@ module channel_config (
 
 
 assign t_valid = 1'b1;
-assign combined_data = {2'b00, data_src_b[15:2], 2'b00, data_src_a[15:2]};
+assign combined_data = {data_src_a[15:2], 2'b00, data_src_b[15:2], 2'b00};
 
 endmodule
