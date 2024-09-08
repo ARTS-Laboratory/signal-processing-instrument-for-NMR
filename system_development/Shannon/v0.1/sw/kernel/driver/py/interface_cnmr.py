@@ -91,10 +91,12 @@ def main():
 
     echo_times, echo_max_values = generate_t2_curve(xpulse_data)
 
+    smoothed_vals = smooth_outliers(echo_max_values, window_size=100)
+
     plt.plot(xpulse_data[0:800000])
     plt.show()
 
-    plot_t2_curve(echo_times, echo_max_values)
+    plot_t2_curve(echo_times, smoothed_vals)
 
 if __name__ == "__main__":
     main()
