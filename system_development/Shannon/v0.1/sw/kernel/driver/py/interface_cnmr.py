@@ -4,7 +4,6 @@ import numpy as np
 import scipy.signal as signal
 import matplotlib.pyplot as plt
 from scipy.signal import wiener
-from scipy.fft import fft
 from t2_decay import *
 
 TCP_ADDR = '192.168.1.100'
@@ -82,20 +81,14 @@ def main():
     data = signal.resample(data, 2 * N)
 
     corrected_data = baseline_correction(data)
-
     cleaned_data = wiener(corrected_data)
-
     xpulse_data_t = remove_pulses(cleaned_data, window_size=200, threshold=0.4, zero_range=250)
-
     xpulse_data = wiener(xpulse_data_t)
-
     echo_times, echo_max_values = generate_t2_curve(xpulse_data)
-
-    smoothed_vals = smooth_outliers(echo_max_values, window_size=100)
+    smoothed_vals = remove_pops(echo_max_values)
 
     plt.plot(xpulse_data[0:800000])
     plt.show()
-
     plot_t2_curve(echo_times, smoothed_vals)
 
 if __name__ == "__main__":

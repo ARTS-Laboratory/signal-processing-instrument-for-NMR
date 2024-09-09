@@ -4,6 +4,24 @@
 #include "dtypes.h"
 #include <stdint.h>
 
+typedef struct
+{
+    float time;
+    float volt;
+} DataPoint;
+
+typedef struct
+{
+    int start_index;
+    int end_index;
+} Echo;
+
+typedef struct
+{
+    int index;
+    float value;
+} Extrema;
+
 #define THRESHOLD 500
 #define WINDOW_SIZE 125
 #define ZERO_RANGE 150
