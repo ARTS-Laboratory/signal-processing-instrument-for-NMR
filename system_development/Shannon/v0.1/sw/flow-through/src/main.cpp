@@ -1,95 +1,79 @@
-// #include <Arduino.h>
-
-// void setup() {
-//   DDRD |= (1 << PD6) | (1 << PD7);      // pins 6 and 7 as outputs
-// }
-
-// void loop() {
-//   PORTD |= (1 << PD6) | (1 << PD7);
-//   delay(1000);
-//   //delay(30000);                       // 30,000 milliseconds = 30 seconds
-
-//   PORTD &= ~((1 << PD6) | (1 << PD7));
-//   delay(1000);
-//   //delay(570000);                      // 570,000 milliseconds = 9.5 minutes
-// }
-
-
-/*
-  SD card read/write
-
-  This example shows how to read and write data to and from an SD card file
-  The circuit:
-   SD card attached to SPI bus as follows:
- ** MOSI - pin 11
- ** MISO - pin 12
- ** CLK - pin 13
- ** CS - pin 4 (for MKRZero SD: SDCARD_SS_PIN)
-
-  created   Nov 2010
-  by David A. Mellis
-  modified 9 Apr 2012
-  by Tom Igoe
-
-  This example code is in the public domain.
-
-*/
-
 #include <Arduino.h>
-#include <SPI.h>
-#include <SD.h>
+#include "sensing.h"
 
-File myFile;
+File logfile;
+Adafruit_BME280 bme1; // First sensor (default address 0x76)
+Adafruit_BME280 bme2; // Second sensor (address 0x77)
+RTC_DS3231 rtc;
 
-void setup() {
-  // Open serial communications and wait for port to open:
+unsigned long delayTime;
+int ss, mm, hh, DD, dd, MM, yyyy;
+
+void setup() 
+{
+  
   Serial.begin(9600);
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
+  while (!Serial) 
+  {
+    ; 
   }
 
+  DDRD |= (1 << PD6) | (1 << PD7);      // pins 6 and 7 as outputs
 
   Serial.print("Initializing SD card...");
 
-  if (!SD.begin(4)) {
-    Serial.println("initialization failed!");
+  if (!SD.begin(4)) 
+  {
+    Serial.println("SD initialization failed!");
     while (1);
   }
+
+  logfile = SD.open("logfile.txt", FILE_WRITE);
+  if (!logfile) 
+  {
+    Serial.println("Error opening file!");
+    while (1);
+  }
+
+  unsigned status1, status2;
+
+  status1 = bme1.begin(0x76);
+  if (!status1) 
+  {
+      Serial.println("Could not find BME280 sensor at address 0x76, check wiring!");
+      while (1) delay(10);
+  }
+
+  status2 = bme2.begin(0x77);
+  if (!status2) 
+  {
+      Serial.println("Could not find BME280 sensor at address 0x77, check wiring!");
+      while (1) delay(10);
+  }
+
+  rtc.begin();
+  //updateRTC(rtc, 2024, 10, 24, 13, 23, 0);
+  
+
   Serial.println("initialization done.");
-
-  // open the file. note that only one file can be open at a time,
-  // so you have to close this one before opening another.
-  myFile = SD.open("test.txt", FILE_WRITE);
-
-  // if the file opened okay, write to it:
-  if (myFile) {
-    Serial.print("Writing to test.txt...");
-    myFile.println("testing 1, 2, 3.");
-    // close the file:
-    myFile.close();
-    Serial.println("done.");
-  } else {
-    // if the file didn't open, print an error:
-    Serial.println("error opening test.txt");
-  }
-
-  // re-open the file for reading:
-  myFile = SD.open("test.txt");
-  if (myFile) {
-    Serial.println("test.txt:");
-
-    // read from the file until there's nothing else in it:
-    while (myFile.available()) {
-      Serial.write(myFile.read());
-    }
-    // close the file:
-    myFile.close();
-  } else {
-    // if the file didn't open, print an error:
-    Serial.println("error opening test.txt");
-  }
+  delayTime = 1000;
 }
 
-void loop() {
-  // nothing happens after setup
+void loop() 
+{
+
+  pumpsOn();
+  delay(1000);
+
+  pumpsOff();
+  delay(1000);
+
+  RTClogNow(rtc, logfile, ss, mm, hh, DD, dd, MM, yyyy);
+  logValues(bme1, "Sensor 1", logfile);
+  logValues(bme2, "Sensor 2", logfile);
+
+  RTCgetNow(rtc, ss, mm, hh, DD, dd, MM, yyyy);
+  printValues(bme1, "Sensor 1");;
+  printValues(bme2, "Sensor 2");
+  delay(delayTime);
 }
