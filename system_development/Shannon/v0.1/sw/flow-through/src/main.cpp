@@ -11,7 +11,6 @@ int ss, mm, hh, DD, dd, MM, yyyy;
 
 void setup() 
 {
-  
   Serial.begin(9600);
   while (!Serial) 
   {
@@ -53,27 +52,33 @@ void setup()
 
   rtc.begin();
   //updateRTC(rtc, 2024, 10, 24, 13, 23, 0);
-  
 
-  Serial.println("initialization done.");
+  Serial.println("Initialization done.");
   delayTime = 1000;
 }
 
 void loop() 
 {
+  if (Serial.available() > 0) 
+  {
+    String command = Serial.readStringUntil('\n');
+    command.trim();
 
-  pumpsOn();
-  delay(1000);
+    if (command == "start") 
+    {
+      pumpsOn();
+    } 
+    else if (command == "stop") 
+    {
+      pumpsOff();
 
-  pumpsOff();
-  delay(1000);
+      RTClogNow(rtc, logfile, ss, mm, hh, DD, dd, MM, yyyy);
+      logValues(bme1, "Sensor 1", logfile);
+      logValues(bme2, "Sensor 2", logfile);
 
-  RTClogNow(rtc, logfile, ss, mm, hh, DD, dd, MM, yyyy);
-  logValues(bme1, "Sensor 1", logfile);
-  logValues(bme2, "Sensor 2", logfile);
-
-  RTCgetNow(rtc, ss, mm, hh, DD, dd, MM, yyyy);
-  printValues(bme1, "Sensor 1");;
-  printValues(bme2, "Sensor 2");
-  delay(delayTime);
+      RTCgetNow(rtc, ss, mm, hh, DD, dd, MM, yyyy);
+      printValues(bme1, "Sensor 1");
+      printValues(bme2, "Sensor 2");
+    }
+  }
 }
