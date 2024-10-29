@@ -19,18 +19,18 @@ void setup()
 
   DDRD |= (1 << PD6) | (1 << PD7);      // pins 6 and 7 as outputs
 
-  Serial.print("Initializing SD card...");
+  Serial.print("Initializing SD card...\n");
 
   if (!SD.begin(4)) 
   {
-    Serial.println("SD initialization failed!");
+    Serial.println("SD initialization failed!\n");
     while (1);
   }
 
   logfile = SD.open("logfile.txt", FILE_WRITE);
   if (!logfile) 
   {
-    Serial.println("Error opening file!");
+    Serial.println("Error opening file!\n");
     while (1);
   }
 
@@ -53,7 +53,7 @@ void setup()
   rtc.begin();
   //updateRTC(rtc, 2024, 10, 24, 13, 23, 0);
 
-  Serial.println("Initialization done.");
+  Serial.println("Initialization done.\n");
   delayTime = 1000;
 }
 
@@ -76,9 +76,10 @@ void loop()
       logValues(bme1, "Sensor 1", logfile);
       logValues(bme2, "Sensor 2", logfile);
 
+    }
+  }
       RTCgetNow(rtc, ss, mm, hh, DD, dd, MM, yyyy);
       printValues(bme1, "Sensor 1");
       printValues(bme2, "Sensor 2");
-    }
-  }
+      delay(delayTime);
 }
