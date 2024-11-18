@@ -9,6 +9,8 @@ from scipy.signal import wiener
 from t2_decay import *
 import os
 import datetime
+import argparse
+import time
 
 TCP_ADDR = '192.168.1.100'
 TCP_PORT = 1001
@@ -38,35 +40,36 @@ def tx_begin(sock):
     data = struct.pack('!B', 5)
     sock.send(data)
 
-def main():
-
+def run(args):
     buffer = []
     buf_count = 0
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
         sock.connect((TCP_ADDR, TCP_PORT))
         print("Connected to server.")
 
-        print("Enter Larmor (MHz): ")
-        f_mhz = float(input())
+        f_mhz = args.larmor
         tx_freq(sock, f_mhz)
 
-        print("Enter delay (clock cycles): ")
-        delay = int(input())
+        delay = args.delay
         tx_delay(sock, delay)
 
-        print("Enter tau (us): ")
-        tau = float(input())
+        tau = args.tau
         tx_tau(sock, tau)
 
-        print("Enter tau_low (us): ")
-        tau_low = float(input())
+        tau_low = args.tl
         tx_tau_low(sock, tau_low)
 
-        print("Configuration Complete. Press y to start the scan.")
-        y = input()
-        if y == 'y':
+        print("Configuration Complete.")
+
+        if args.start:
             tx_begin(sock)
             print("Scan started.")
+        else:
+            print("Press y to start the scan.")
+            y = input()
+            if y == 'y':
+                tx_begin(sock)
+                print("Scan started.")
 
         while True and len(buffer) == 0:
             raw_data = sock.recv(2 * N, socket.MSG_WAITALL)
@@ -81,9 +84,8 @@ def main():
         sock.close()
         print("Data received.")
 
-    # Create folder with naming convention
     now = datetime.datetime.now()
-    folder_name = f"Larmor_{f_mhz}_Delay_{delay}_Tau_{tau}_TauLow_{tau_low}_{now.strftime('%Y%m%d_%H%M%S')}"
+    folder_name = f"L_{f_mhz}_D_{delay}_T_{tau}_TL_{tau_low}_{now.strftime('%Y%m%d_%H%M%S')}"
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
 
@@ -98,16 +100,37 @@ def main():
     smoothed_vals = remove_pops(echo_max_values)
 
     plt.figure()
-    plt.plot(cleaned_data[0:800000])
-    plt.title('Cleaned Data')
-    plt.savefig(os.path.join(folder_name, 'cleaned_data_plot.png'))
+    plt.plot(cleaned_data[0:80000])
+    plt.title('Echoes')
+    plt.savefig(os.path.join(folder_name, 'echoes.png'))
 
     plt.figure()
     plt.plot(echo_times, smoothed_vals)
-    plt.title('T2 Curve')
-    plt.xlabel('Echo Times')
-    plt.ylabel('Signal Amplitude')
+    plt.title('T2 Decay')
+    plt.xlabel('time (us)')
+    plt.ylabel('signal amplitude')
     plt.savefig(os.path.join(folder_name, 't2_curve_plot.png'))
+
+def main():
+    parser = argparse.ArgumentParser(description='Signal Processing Instrument for NMR (SPIN)')
+    parser.add_argument('--larmor', type=float, required=True, help='Larmor frequency in MHz')
+    parser.add_argument('--delay', type=int, required=True, help='Delay in clock cycles')
+    parser.add_argument('--tau', type=float, required=True, help='Tau in microseconds')
+    parser.add_argument('--tl', type=float, required=True, help='Tau low in microseconds')
+    parser.add_argument('--start', action='store_true', help='Start the scan immediately without prompt')
+    parser.add_argument('--interval', type=int, help='Interval in seconds between experiments')
+    args = parser.parse_args()
+
+    if args.interval is not None:
+        try:
+            while True:
+                run(args)
+                print(f"Waiting for {args.interval} seconds before next run.")
+                time.sleep(args.interval)
+        except KeyboardInterrupt:
+            print("Experiment interrupted by user.")
+    else:
+        run(args)
 
 if __name__ == "__main__":
     main()

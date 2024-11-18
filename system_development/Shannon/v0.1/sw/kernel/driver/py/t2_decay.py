@@ -30,8 +30,8 @@ def generate_t2_curve(data, distance=1800, height=0.1):
 def plot_t2_curve(echo_times, echo_max_values):
     plt.figure()
     plt.plot(echo_times, echo_max_values, 'o')
-    plt.xlabel("Time (Sample Index)")
-    plt.ylabel("Echo Amplitude")
+    plt.xlabel("time (sample index)")
+    plt.ylabel("amplitude")
     plt.grid(True)
     plt.show()
 
