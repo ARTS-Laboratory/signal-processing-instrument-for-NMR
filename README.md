@@ -30,3 +30,9 @@ Cite this as:
   groups = {ARTS-Lab},    
   url    = {https://github.com/ARTS-Laboratory/signal-processing-instrument-for-NMR},   
 }
+
+<p align="center">
+<img src="media/QR-code.png" alt="drawing" width="200"/>
+</p>
+<p align="center">
+QR code for repo.
