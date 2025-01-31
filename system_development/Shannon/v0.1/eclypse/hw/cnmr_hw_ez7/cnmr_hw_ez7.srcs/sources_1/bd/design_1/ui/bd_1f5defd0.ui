@@ -44,22 +44,22 @@ preplace inst axi_sts_register_0 -pg 1 -lvl 10 -x 3270 -y 800 -defaultsOSRD
 preplace inst axis_constant_0 -pg 1 -lvl 12 -x 3860 -y 1000 -defaultsOSRD
 preplace inst axis_dwidth_converter_0 -pg 1 -lvl 6 -x 1700 -y 690 -defaultsOSRD
 preplace inst axis_ram_writer_0 -pg 1 -lvl 7 -x 2050 -y 740 -defaultsOSRD
-preplace inst axis_subset_converter_0 -pg 1 -lvl 3 -x 730 -y 620 -defaultsOSRD
+preplace inst axis_subset_converter_0 -pg 1 -lvl 3 -x 750 -y 620 -defaultsOSRD
 preplace inst channel_config_0 -pg 1 -lvl 14 -x 4650 -y 1010 -defaultsOSRD
-preplace inst cic_compiler_0 -pg 1 -lvl 4 -x 1050 -y 640 -defaultsOSRD
+preplace inst cic_compiler_0 -pg 1 -lvl 4 -x 1070 -y 640 -defaultsOSRD
 preplace inst clk_wiz_0 -pg 1 -lvl 1 -x 70 -y 740 -defaultsOSRD
 preplace inst cpmg_0 -pg 1 -lvl 13 -x 4250 -y 1220 -defaultsOSRD
 preplace inst dds_compiler_0 -pg 1 -lvl 13 -x 4250 -y 1010 -defaultsOSRD
 preplace inst dna_reader_0 -pg 1 -lvl 8 -x 2510 -y 960 -defaultsOSRD
-preplace inst fir_compiler_0 -pg 1 -lvl 5 -x 1360 -y 660 -defaultsOSRD
-preplace inst port_slicer_0 -pg 1 -lvl 5 -x 1360 -y 810 -defaultsOSRD
+preplace inst fir_compiler_0 -pg 1 -lvl 5 -x 1380 -y 660 -defaultsOSRD
+preplace inst port_slicer_0 -pg 1 -lvl 5 -x 1380 -y 810 -defaultsOSRD
 preplace inst port_slicer_1 -pg 1 -lvl 6 -x 1700 -y 840 -defaultsOSRD
 preplace inst port_slicer_2 -pg 1 -lvl 12 -x 3860 -y 1180 -defaultsOSRD
 preplace inst port_slicer_3 -pg 1 -lvl 12 -x 3860 -y 1280 -defaultsOSRD
 preplace inst port_slicer_4 -pg 1 -lvl 11 -x 3550 -y 920 -defaultsOSRD
 preplace inst port_slicer_5 -pg 1 -lvl 11 -x 3550 -y 800 -defaultsOSRD
 preplace inst port_slicer_6 -pg 1 -lvl 11 -x 3550 -y 1040 -defaultsOSRD
-preplace inst proc_sys_reset_0 -pg 1 -lvl 2 -x 370 -y 670 -defaultsOSRD
+preplace inst proc_sys_reset_0 -pg 1 -lvl 2 -x 390 -y 670 -defaultsOSRD
 preplace inst processing_system7_0 -pg 1 -lvl 8 -x 2510 -y 640 -defaultsOSRD
 preplace inst sync_delay_0 -pg 1 -lvl 12 -x 3860 -y 780 -defaultsOSRD
 preplace inst xlconcat_0 -pg 1 -lvl 9 -x 2940 -y 1010 -defaultsOSRD
@@ -67,7 +67,7 @@ preplace inst xlconstant_0 -pg 1 -lvl 1 -x 70 -y 870 -defaultsOSRD
 preplace inst xlconstant_1 -pg 1 -lvl 6 -x 1700 -y 940 -defaultsOSRD
 preplace inst xlconstant_2 -pg 1 -lvl 7 -x 2050 -y 160 -defaultsOSRD
 preplace inst xlconstant_3 -pg 1 -lvl 7 -x 2050 -y 260 -defaultsOSRD
-preplace netloc Net 1 4 8 1210 750 1510 780 1830J 890 NJ 890 2730J 1100 NJ 1100 3410 1100 3680
+preplace netloc Net 1 4 8 1230 750 1530 780 1830J 890 NJ 890 2730J 1100 NJ 1100 3410 1100 3680
 preplace netloc Net1 1 7 8 2250 880 2740 1120 NJ 1120 NJ 1120 NJ 1120 NJ 1120 NJ 1120 4840
 preplace netloc Net2 1 8 8 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ 240 NJ
 preplace netloc Net3 1 15 1 NJ 1030
@@ -101,28 +101,28 @@ preplace netloc axis_ram_writer_0_sts_data 1 7 2 2220 860 2760J
 preplace netloc channel_config_0_combined_data 1 14 1 N 1000
 preplace netloc channel_config_0_t_valid 1 14 1 N 1020
 preplace netloc clk_in1_0_1 1 0 1 NJ 740
-preplace netloc clk_wiz_0_clk_out1 1 1 14 170 570 560 530 890 550 1210 740 1530 770 1840 830 2260 870 2780J 920 3120J 890 3420J 860 3680 930 4060 930 4440 930 4830
-preplace netloc clk_wiz_0_clk_out2 1 1 14 170J 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 3690J 1100 NJ 1100 NJ 1100 4830
-preplace netloc clk_wiz_0_clk_out3 1 1 11 NJ 770 NJ 770 NJ 770 1200J 1000 NJ 1000 NJ 1000 2230 1090 NJ 1090 3090J 710 NJ 710 3690J
-preplace netloc clk_wiz_0_locked 1 1 1 190 710n
+preplace netloc clk_wiz_0_clk_out1 1 1 14 170 570 580 530 910 550 1230 740 1550 770 1840 830 2260 870 2780J 920 3120J 890 3420J 860 3680 930 4060 930 4440 930 4830
+preplace netloc clk_wiz_0_clk_out2 1 1 14 200J 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 NJ 1130 3690J 1100 NJ 1100 NJ 1100 4830
+preplace netloc clk_wiz_0_clk_out3 1 1 11 190J 770 NJ 770 NJ 770 1220J 1000 NJ 1000 NJ 1000 2230 1090 NJ 1090 3090J 710 NJ 710 3690J
+preplace netloc clk_wiz_0_locked 1 1 1 180 710n
 preplace netloc cpmg_0_data 1 13 1 4450 1010n
 preplace netloc dZmodADC_Data_0_1 1 0 8 NJ 340 NJ 340 NJ 340 NJ 340 NJ 340 NJ 340 NJ 340 NJ
 preplace netloc dds_compiler_0_m_axis_data_tdata 1 13 1 4440 1010n
 preplace netloc dna_reader_0_dna_data 1 8 1 2750 960n
-preplace netloc port_slicer_0_dout 1 5 1 1520J 710n
+preplace netloc port_slicer_0_dout 1 5 1 1540J 710n
 preplace netloc port_slicer_1_dout 1 6 2 1860 880 2200
 preplace netloc port_slicer_2_dout 1 12 1 4030J 1180n
 preplace netloc port_slicer_3_dout 1 12 1 4060J 1240n
 preplace netloc port_slicer_5_dout 1 11 1 NJ 800
 preplace netloc port_slicer_6_dout 1 11 1 3680J 1010n
-preplace netloc proc_sys_reset_0_peripheral_aresetn 1 2 8 550 520 900 560 1200 580 NJ 580 NJ 580 2240J 740 2770 930 3130
+preplace netloc proc_sys_reset_0_peripheral_aresetn 1 2 8 570 520 920 560 1220 580 NJ 580 NJ 580 2240J 740 2770 930 3130
 preplace netloc sync_delay_0_sync_pulse 1 12 1 4040 780n
 preplace netloc xlconcat_0_dout 1 9 1 3110 830n
-preplace netloc xlconstant_0_dout 1 1 1 180 650n
+preplace netloc xlconstant_0_dout 1 1 1 210 650n
 preplace netloc xlconstant_1_dout 1 6 1 1850J 770n
 preplace netloc xlconstant_3_dout 1 7 8 2210 1110 NJ 1110 NJ 1110 NJ 1110 NJ 1110 NJ 1110 NJ 1110 4850J
 preplace netloc S00_AXI_1 1 8 1 2780 640n
-preplace netloc ZmodScopeController_0_DataStream 1 2 7 570 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 2780
+preplace netloc ZmodScopeController_0_DataStream 1 2 7 590 540 NJ 540 NJ 540 NJ 540 NJ 540 NJ 540 2780
 preplace netloc axi_interconnect_0_M00_AXI 1 9 1 N 770
 preplace netloc axi_interconnect_0_M01_AXI 1 9 1 3100 790n
 preplace netloc axis_constant_0_m_axis 1 12 1 N 990
@@ -130,11 +130,11 @@ preplace netloc axis_dwidth_converter_0_M_AXIS 1 6 1 1840 690n
 preplace netloc axis_ram_writer_0_m_axi 1 7 1 2220 630n
 preplace netloc axis_subset_converter_0_M_AXIS 1 3 1 N 620
 preplace netloc cic_compiler_0_M_AXIS_DATA 1 4 1 N 640
-preplace netloc fir_compiler_0_M_AXIS_DATA 1 5 1 1530 660n
+preplace netloc fir_compiler_0_M_AXIS_DATA 1 5 1 1550 660n
 preplace netloc processing_system7_0_DDR 1 8 8 NJ 600 NJ 600 NJ 600 NJ 600 NJ 600 NJ 600 NJ 600 NJ
 preplace netloc processing_system7_0_FIXED_IO 1 8 8 NJ 620 NJ 620 NJ 620 NJ 620 NJ 620 NJ 620 NJ 620 NJ
-levelinfo -pg 1 -50 70 370 730 1050 1360 1700 2050 2510 2940 3270 3550 3860 4250 4650 5050 5270
+levelinfo -pg 1 -50 70 390 750 1070 1380 1700 2050 2510 2940 3270 3550 3860 4250 4650 5050 5270
 pagesize -pg 1 -db -bbox -sgen -290 0 5510 1340
 "
 }
-
+0
