@@ -166,7 +166,8 @@ set proj_dir [get_property directory [current_project]]
 
 # Set project properties
 set obj [current_project]
-set_property -name "board_part_repo_paths" -value "[file normalize "$origin_dir/../../../../.Xilinx/Vivado/2022.2/xhub/board_store/xilinx_board_store"] [file normalize "$origin_dir/../../../RedPitaya-FPGA-master/brd/redpitaya/1.1"]" -objects $obj
+#set_property -name "board_part_repo_paths" -value "[file normalize "$origin_dir/../../../../../../../.Xilinx/Vivado/2022.2/xhub/board_store/xilinx_board_store"] [file normalize "$origin_dir/../../../RedPitaya-FPGA-master/brd/redpitaya/1.1"]" -objects $obj
+set_property -name "board_part_repo_paths" -value "[file normalize "$origin_dir/../../../../../../../.Xilinx/Vivado/2022.2/xhub/board_store/xilinx_board_store"]" -objects $obj
 set_property -name "board_part" -value "digilentinc.com:eclypse-z7:part0:1.1" -objects $obj
 set_property -name "default_lib" -value "xil_defaultlib" -objects $obj
 set_property -name "enable_resource_estimation" -value "0" -objects $obj
@@ -190,7 +191,7 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 # Set IP repository paths
 set obj [get_filesets sources_1]
 if { $obj != {} } {
-   set_property "ip_repo_paths" "[file normalize "$origin_dir/../vivado-library"]" $obj
+   set_property "ip_repo_paths" "[file normalize "$origin_dir/vivado-library"]" $obj
 
    # Rebuild user ip_repo's index before adding any source files
    update_ip_catalog -rebuild
