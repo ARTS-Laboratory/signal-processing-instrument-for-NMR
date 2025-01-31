@@ -2,7 +2,6 @@
   "schema": "xilinx.com:schema:json_instance:1.0",
   "ip_inst": {
     "xci_name": "design_1_port_slicer_5_0",
-    "cell_name": "port_slicer_5",
     "component_reference": "xilinx.com:module_ref:port_slicer:1.0",
     "ip_revision": "1",
     "gen_directory": "../../../../../../cnmr_hw_ez7.gen/sources_1/bd/design_1/ip/design_1_port_slicer_5_0",
