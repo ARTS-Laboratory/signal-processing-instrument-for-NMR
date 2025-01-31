@@ -1,0 +1,54 @@
+{
+  "schema": "xilinx.com:schema:json_instance:1.0",
+  "ip_inst": {
+    "xci_name": "design_1_port_slicer_4_0",
+    "cell_name": "port_slicer_4",
+    "component_reference": "xilinx.com:module_ref:port_slicer:1.0",
+    "ip_revision": "1",
+    "gen_directory": "../../../../../../cnmr_hw_ez7.gen/sources_1/bd/design_1/ip/design_1_port_slicer_4_0",
+    "parameters": {
+      "component_parameters": {
+        "DIN_WIDTH": [ { "value": "256", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "DIN_FROM": [ { "value": "64", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "DIN_TO": [ { "value": "64", "value_src": "user", "resolve_type": "user", "format": "long", "usage": "all" } ],
+        "Component_Name": [ { "value": "design_1_port_slicer_4_0", "resolve_type": "user", "usage": "all" } ]
+      },
+      "model_parameters": {
+        "DIN_WIDTH": [ { "value": "256", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "DIN_FROM": [ { "value": "64", "resolve_type": "generated", "format": "long", "usage": "all" } ],
+        "DIN_TO": [ { "value": "64", "resolve_type": "generated", "format": "long", "usage": "all" } ]
+      },
+      "project_parameters": {
+        "ARCHITECTURE": [ { "value": "zynq" } ],
+        "BASE_BOARD_PART": [ { "value": "digilentinc.com:eclypse-z7:part0:1.1" } ],
+        "BOARD_CONNECTIONS": [ { "value": "" } ],
+        "DEVICE": [ { "value": "xc7z020" } ],
+        "PACKAGE": [ { "value": "clg484" } ],
+        "PREFHDL": [ { "value": "VERILOG" } ],
+        "SILICON_REVISION": [ { "value": "" } ],
+        "SIMULATOR_LANGUAGE": [ { "value": "MIXED" } ],
+        "SPEEDGRADE": [ { "value": "-1" } ],
+        "STATIC_POWER": [ { "value": "" } ],
+        "TEMPERATURE_GRADE": [ { "value": "" } ],
+        "USE_RDI_CUSTOMIZATION": [ { "value": "TRUE" } ],
+        "USE_RDI_GENERATION": [ { "value": "TRUE" } ]
+      },
+      "runtime_parameters": {
+        "IPCONTEXT": [ { "value": "IP_Integrator" } ],
+        "IPREVISION": [ { "value": "1" } ],
+        "MANAGED": [ { "value": "TRUE" } ],
+        "OUTPUTDIR": [ { "value": "../../../../../../cnmr_hw_ez7.gen/sources_1/bd/design_1/ip/design_1_port_slicer_4_0" } ],
+        "SELECTEDSIMMODEL": [ { "value": "" } ],
+        "SHAREDDIR": [ { "value": "../../ipshared" } ],
+        "SWVERSION": [ { "value": "2022.2" } ],
+        "SYNTHESISFLOW": [ { "value": "OOC_HIERARCHICAL" } ]
+      }
+    },
+    "boundary": {
+      "ports": {
+        "din": [ { "direction": "in", "size_left": "255", "size_right": "0" } ],
+        "dout": [ { "direction": "out", "size_left": "0", "size_right": "0" } ]
+      }
+    }
+  }
+}
