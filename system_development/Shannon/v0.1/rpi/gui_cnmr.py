@@ -115,21 +115,21 @@ class NMRApp:
                     print("Received less data than expected.")
                     break
 
-                data = np.frombuffer(raw_data, dtype=np.int16)
+                data = np.frombuffer(raw_data, dtype=np.int64) # figure out actual datatype, i think it's int64
                 buffer.append(-data)
-                print(f"buf: {buf_count} | data: {data[:100]}")
+                print(f"buf: {buf_count} | data: {data[:50]}")
                 buf_count += 1
             sock.close()
             print("Data received.")
 
         self.data = np.concatenate(buffer)
-        self.data = signal.resample(self.data, 2*N)
+        #self.data = signal.resample(self.data, 2*N)
 
         self.plot_data(self.data)
 
     def plot_data(self, data):
         self.ax.clear()
-        self.ax.plot(data[1000:80000])
+        self.ax.plot(data[1000:30000])
         self.ax.set_xlabel("time (us)")
         self.ax.set_ylabel("amplitude")
         self.canvas.draw()
