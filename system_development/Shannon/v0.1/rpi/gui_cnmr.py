@@ -25,18 +25,23 @@ def tx_delay(sock, delay):
     data = struct.pack('!BH', 2, delay)
     sock.send(data)
 
-def tx_tau(sock, tau):
-    tau = int(tau * clock)
-    data = struct.pack('!BH', 3, tau)
+def tx_t1(sock, t1):
+    t1 = int(t1 * clock)
+    data = struct.pack('!BH', 3, t1)
     sock.send(data)
 
-def tx_tau_low(sock, tau_low):
-    tau_low = int(tau_low * clock)
-    data = struct.pack('!BI', 4, tau_low)
+def tx_t1_low(sock, t1_low):
+    t1_low = int(t1_low * clock)
+    data = struct.pack('!BI', 4, t1_low)
+    sock.send(data)
+
+def tx_t2_low(sock, t2_low):
+    t2_low = int(t2_low * clock)
+    data = struct.pack('!BI', 5, t2_low)
     sock.send(data)
 
 def tx_begin(sock):
-    data = struct.pack('!B', 5)
+    data = struct.pack('!B', 6)
     sock.send(data)
 
 class NMRApp:
@@ -59,19 +64,23 @@ class NMRApp:
         self.delay_entry = ttk.Entry(frame)
         self.delay_entry.grid(column=1, row=1)
 
-        ttk.Label(frame, text="Tau (us):").grid(column=0, row=2, sticky=tk.W)
-        self.tau_entry = ttk.Entry(frame)
-        self.tau_entry.grid(column=1, row=2)
+        ttk.Label(frame, text="T1 (us):").grid(column=0, row=2, sticky=tk.W)
+        self.t1_entry = ttk.Entry(frame)
+        self.t1_entry.grid(column=1, row=2)
 
-        ttk.Label(frame, text="Tau Low (us):").grid(column=0, row=3, sticky=tk.W)
-        self.tau_low_entry = ttk.Entry(frame)
-        self.tau_low_entry.grid(column=1, row=3)
+        ttk.Label(frame, text="T1 Low (us):").grid(column=0, row=3, sticky=tk.W)
+        self.t1_low_entry = ttk.Entry(frame)
+        self.t1_low_entry.grid(column=1, row=3)
+
+        ttk.Label(frame, text="T2 Low (us):").grid(column=0, row=4, sticky=tk.W)
+        self.t2_low_entry = ttk.Entry(frame)
+        self.t2_low_entry.grid(column=1, row=4)
 
         self.start_button = ttk.Button(frame, text="Start Scan", command=self.start_scan)
-        self.start_button.grid(column=0, row=4, columnspan=2)
+        self.start_button.grid(column=0, row=5, columnspan=2)
 
         self.save_button = ttk.Button(frame, text="Save Data", command=self.save_data)
-        self.save_button.grid(column=0, row=5, columnspan=2)
+        self.save_button.grid(column=0, row=6, columnspan=2)
 
     def create_plot_area(self):
         self.fig = Figure(figsize=(8, 6))
@@ -100,11 +109,14 @@ class NMRApp:
             self.delay = int(self.delay_entry.get())
             tx_delay(sock, self.delay)
 
-            self.tau = float(self.tau_entry.get())
-            tx_tau(sock, self.tau)
+            self.t1 = float(self.t1_entry.get())
+            tx_t1(sock, self.t1)
 
-            self.tau_low = float(self.tau_low_entry.get())
-            tx_tau_low(sock, self.tau_low)
+            self.t1_low = float(self.t1_low_entry.get())
+            tx_t1_low(sock, self.t1_low)
+
+            self.t2_low = float(self.t2_low_entry.get())
+            tx_t2_low(sock, self.t2_low)
 
             tx_begin(sock)
             print("Scan started.")
@@ -115,21 +127,21 @@ class NMRApp:
                     print("Received less data than expected.")
                     break
 
-                data = np.frombuffer(raw_data, dtype=np.int64) # figure out actual datatype, i think it's int64
+                data = np.frombuffer(raw_data, dtype=np.int16)
                 buffer.append(-data)
-                print(f"buf: {buf_count} | data: {data[:50]}")
+                print(f"buf: {buf_count} | data: {data[:100]}")
                 buf_count += 1
             sock.close()
             print("Data received.")
 
         self.data = np.concatenate(buffer)
-        #self.data = signal.resample(self.data, 2*N)
+        self.data = signal.resample(self.data, 2*N)
 
         self.plot_data(self.data)
 
     def plot_data(self, data):
         self.ax.clear()
-        self.ax.plot(data[1000:30000])
+        self.ax.plot(data[1000:80000])
         self.ax.set_xlabel("time (us)")
         self.ax.set_ylabel("amplitude")
         self.canvas.draw()
@@ -140,7 +152,7 @@ class NMRApp:
             return
 
         date_str = datetime.now().strftime("%d-%m-%y")
-        folder_name = f"{date_str}_f{int(self.f_mhz*1000)}_d{self.delay}_t{int(self.tau)}_tl{int(self.tau_low)}"
+        folder_name = f"{date_str}_f{int(self.f_mhz*1000)}_d{self.delay}_t{int(self.t1)}_tl{int(self.t1_low)}"
         os.makedirs(folder_name, exist_ok=True)
 
         data_file = os.path.join(folder_name, f"{folder_name}.txt")
