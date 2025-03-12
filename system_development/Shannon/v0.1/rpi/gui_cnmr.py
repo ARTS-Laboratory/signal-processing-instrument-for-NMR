@@ -83,7 +83,7 @@ class NMRApp:
         self.save_button.grid(column=0, row=6, columnspan=2)
 
     def create_plot_area(self):
-        self.fig = Figure(figsize=(8, 6))
+        self.fig = Figure(figsize=(7, 5))
         self.ax = self.fig.add_subplot(111)
         self.ax.set_xlabel("time (us)")
         self.ax.set_ylabel("amplitude")
@@ -127,7 +127,7 @@ class NMRApp:
                     print("Received less data than expected.")
                     break
 
-                data = np.frombuffer(raw_data, dtype=np.int16)
+                data = np.frombuffer(raw_data, dtype=np.int64)
                 buffer.append(-data)
                 print(f"buf: {buf_count} | data: {data[:100]}")
                 buf_count += 1
