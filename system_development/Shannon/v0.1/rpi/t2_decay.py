@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.signal import medfilt, find_peaks, peak_prominences
+from scipy.signal import find_peaks
 
-def remove_pulses(data, window_size=200, threshold=0.7, zero_range=50):
+def remove_pulses(data, window_size=200, threshold=0.7, zero_range=150):
 
     windows = np.lib.stride_tricks.sliding_window_view(data, window_shape=window_size)
     max_values = np.max(windows, axis=1)  # Find max for each window
@@ -23,12 +23,16 @@ def remove_pulses(data, window_size=200, threshold=0.7, zero_range=50):
 
     return data_out
 
-def generate_t2_curve(data, distance=1800, height=0.1):
+def remove_pops(data, window_size=50000):
+    for i in range(0, len(data), window_size):
+        window_data = data[i:i + window_size]
+        window_max = np.max(window_data)
+        window_min = np.min(window_data)
+        window_mean = np.mean(window_data)
 
+def generate_t2_curve(data, distance=1800, height=0.3):
     peaks, properties = find_peaks(data, distance=distance, height=[height * np.max(data[:20000]), np.max(data[:20000])])
-
     echo_max_values = properties['peak_heights']
-
     return peaks, echo_max_values
 
 def plot_t2_curve(echo_times, echo_max_values):
@@ -39,13 +43,3 @@ def plot_t2_curve(echo_times, echo_max_values):
     plt.ylabel("Echo Amplitude")
     plt.grid(True)
     plt.show()
-
-def baseline_correction(data, kernel_size=501):
-
-    baseline = medfilt(data, kernel_size=kernel_size)
-
-    # Subtract the baseline from the original data
-    corrected_data = data - baseline
-
-    return corrected_data
-
