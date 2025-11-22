@@ -1,3 +1,5 @@
+// UofSC ARTS Lab, 2025
+
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdint.h>

@@ -1,3 +1,5 @@
+// UofSC ARTS Lab, 2025
+
 #include <math.h>
 #include "dtypes.h"
 #include <stdint.h>

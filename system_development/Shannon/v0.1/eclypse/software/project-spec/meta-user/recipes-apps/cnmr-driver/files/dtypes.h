@@ -1,3 +1,5 @@
+// UofSC ARTS Lab, 2025
+
 #ifndef DTYPES_H
 #define DTYPES_H
 #include <stdio.h>
