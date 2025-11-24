@@ -14,6 +14,7 @@ RUN apt install -y autoconf \
                    libtinfo5 \
                    libtool \
                    lsb-release \
+                   neofetch \
                    net-tools \
                    texinfo \
                    tftpd-hpa \
