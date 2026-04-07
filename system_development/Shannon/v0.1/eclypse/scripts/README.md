@@ -70,6 +70,7 @@ sudo apt-get install iproute2 gawk python3 build-essential \
 
 ## Set up your microSD card
 I never got the system to boot off a microSD card. Your mileage may vary.
+
 0. Build your PetaLinux image
 1. Partition an SD Card (0-1 GiB fat32, 0-100% ext4) (replace `/dev/sdX` with your sd card).
 ```bash
