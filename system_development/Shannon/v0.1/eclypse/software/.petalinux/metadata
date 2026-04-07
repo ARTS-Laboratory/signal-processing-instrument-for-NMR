@@ -1,7 +1,7 @@
 PETALINUX_VER=2022.2
 VALIDATE_HW_CHKSUM=1
-HARDWARE_PATH=/home/josh/Documents/nmr/compact-nmr.xsa
+HARDWARE_PATH=/home/gabri/dev/ARTS/FPGA/signal-processing-instrument-for-NMR/system_development/Shannon/v0.1/eclypse/hw/cnmr_hw_ez7/design_1_wrapper.xsa
 HDF_EXT=xsa
-HARDWARE_CHECKSUM=95b7d982725bbe5b5d44141fbc717849
+HARDWARE_CHECKSUM=3268b2ce206ad4e3eaa8a130f98875ab
 YOCTO_SDK=85e32bd84b2647e640a2e565ef06077a
-RFSCONFIG_CHKSUM=7907b382f788e087748797e2dd9f4c90
+RFSCONFIG_CHKSUM=872241bc6c3ef54615fa8e7e6e920f10
