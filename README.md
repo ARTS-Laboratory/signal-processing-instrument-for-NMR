@@ -26,7 +26,7 @@ Cite this as:
 @Misc{ARTSLabSignalProcessingInstrument,    
   author = {ARTS-Lab},  
   howpublished = {GitHub},  
-  title  = {Signal Processing Instrument for NMR {(SPIN)}},    
+  title  = {Signal Processing Instrument for {NMR} {(SPIN)}},    
   groups = {ARTS-Lab},    
   url    = {https://github.com/ARTS-Laboratory/signal-processing-instrument-for-NMR},   
 }
