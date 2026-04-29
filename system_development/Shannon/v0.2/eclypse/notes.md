@@ -1,6 +1,3 @@
----
-author: Gabriel Howe
----
 # SPIN guide
 
 NB: I used a recreated version of the PetaLinux repository for my working version in March 2026, so not all of these steps are those I took to actually achieve the version I did then. I did, however, produce working builds that successfully ran cnmr-driver using the code in v0.1.
