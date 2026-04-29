@@ -5,6 +5,7 @@ Development that led to the 2026 SPIE Defense paper "A low-power FPGA-based time
 ## Notes
 
 - Video demonstrates overall system setup and workflow for the SPIN NMR FPGA platform. https://www.youtube.com/watch?v=uxqTKqhmcEg
+- [This guide goes into more detail](./eclypse/notes.md)
 
 - **Eclypse Z7 Usage**
   - Follow consistent power sequencing practices during setup
