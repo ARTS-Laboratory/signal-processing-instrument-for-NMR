@@ -1,0 +1,115 @@
+
+//------------------------------------------------------------------------------
+// (c) Copyright 2014 Xilinx, Inc. All rights reserved.
+//
+// This file contains confidential and proprietary information
+// of Xilinx, Inc. and is protected under U.S. and
+// international copyright and other intellectual property
+// laws.
+//
+// DISCLAIMER
+// This disclaimer is not a license and does not grant any
+// rights to the materials distributed herewith. Except as
+// otherwise provided in a valid license issued to you by
+// Xilinx, and to the maximum extent permitted by applicable
+// law: (1) THESE MATERIALS ARE MADE AVAILABLE "AS IS" AND
+// WITH ALL FAULTS, AND XILINX HEREBY DISCLAIMS ALL WARRANTIES
+// AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY, INCLUDING
+// BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-
+// INFRINGEMENT, OR FITNESS FOR ANY PARTICULAR PURPOSE; and
+// (2) Xilinx shall not be liable (whether in contract or tort,
+// including negligence, or under any other theory of
+// liability) for any loss or damage of any kind or nature
+// related to, arising under or in connection with these
+// materials, including for any direct, or any indirect,
+// special, incidental, or consequential loss or damage
+// (including loss of data, profits, goodwill, or any type of
+// loss or damage suffered as a result of any action brought
+// by a third party) even if such damage or loss was
+// reasonably foreseeable or Xilinx had been advised of the
+// possibility of the same.
+//
+// CRITICAL APPLICATIONS
+// Xilinx products are not designed or intended to be fail-
+// safe, or for use in any application requiring fail-safe
+// performance, such as life-support or safety devices or
+// systems, Class III medical devices, nuclear facilities,
+// applications related to the deployment of airbags, or any
+// other applications that could lead to death, personal
+// injury, or severe property or environmental damage
+// (individually and collectively, "Critical
+// Applications"). Customer assumes the sole risk and
+// liability of any use of Xilinx products in Critical
+// Applications, subject only to applicable laws and
+// regulations governing limitations on product liability.
+//
+// THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS
+// PART OF THIS FILE AT ALL TIMES.
+//------------------------------------------------------------------------------ 
+//
+// C Model configuration for the "design_1_fir_compiler_0_1" instance.
+//
+//------------------------------------------------------------------------------
+//
+// coefficients: 0.0014741954966090763,0.0014911653845916045,0.0015415339178727347,0.0016251187401673615,0.001741605649488668,0.001890549804587908,0.002071377451290726,0.0022833881620101686,0.002525757579667078,0.002797540655233539,0.0030976753661425536,0.003424986900885117,0.0037781922932518725,0.004155905487878263,0.004556642817026605,0.004978828866892743,0.005420802710165686,0.0058808244801017,0.006357082260006297,0.006847699260753156,0.007350741257814013,0.007864224258232135,0.008386122367048481,0.008914375821887949,0.009446899163736144,0.009981589511387778,0.010516334906628486,0.011049022696923747,0.01157754792223358,0.012099821672549802,0.012613779382864173,0.013117389032520606,0.013608659216281297,0.014085647054943959,0.014546465913983337,0.014989292899452182,0.015412376101261826,0.015814041554967004,0.016192699894299622,0.016546852667927017,0.016875098295247547,0.01717613763747395,0.017448779161787983,0.017691943677971445,0.017904668628622843,0.018086111915848746,0.01823555524916691,0.018352407001267643,0.018436204560242482,0.01848661616889746,0.018503442243814255,0.01848661616889746,0.018436204560242482,0.018352407001267643,0.018235555249166906,0.018086111915848743,0.01790466862862284,0.017691943677971445,0.017448779161787983,0.01717613763747395,0.016875098295247547,0.016546852667927013,0.01619269989429962,0.015814041554967004,0.015412376101261826,0.014989292899452182,0.014546465913983333,0.014085647054943957,0.013608659216281292,0.013117389032520603,0.012613779382864171,0.012099821672549799,0.011577547922233578,0.011049022696923736,0.010516334906628481,0.009981589511387777,0.00944689916373614,0.008914375821887949,0.008386122367048474,0.007864224258232131,0.007350741257814013,0.006847699260753151,0.006357082260006297,0.005880824480101694,0.005420802710165682,0.004978828866892736,0.0045566428170266,0.004155905487878263,0.0037781922932518678,0.003424986900885115,0.0030976753661425497,0.002797540655233536,0.002525757579667078,0.0022833881620101647,0.0020713774512907237,0.001890549804587907,0.0017416056494886669,0.0016251187401673615,0.0015415339178727334,0.0014911653845916045,0.0014741954966090763
+// chanpats: 173
+// name: design_1_fir_compiler_0_1
+// filter_type: 2
+// rate_change: 0
+// interp_rate: 1
+// decim_rate: 10
+// zero_pack_factor: 1
+// coeff_padding: 9
+// num_coeffs: 101
+// coeff_sets: 1
+// reloadable: 0
+// is_halfband: 0
+// quantization: 1
+// coeff_width: 16
+// coeff_fract_width: 21
+// chan_seq: 0
+// num_channels: 1
+// num_paths: 1
+// data_width: 43
+// data_fract_width: 0
+// output_rounding_mode: 4
+// output_width: 16
+// output_fract_width: 0
+// config_method: 0
+
+const double design_1_fir_compiler_0_1_coefficients[101] = {0.0014741954966090763,0.0014911653845916045,0.0015415339178727347,0.0016251187401673615,0.001741605649488668,0.001890549804587908,0.002071377451290726,0.0022833881620101686,0.002525757579667078,0.002797540655233539,0.0030976753661425536,0.003424986900885117,0.0037781922932518725,0.004155905487878263,0.004556642817026605,0.004978828866892743,0.005420802710165686,0.0058808244801017,0.006357082260006297,0.006847699260753156,0.007350741257814013,0.007864224258232135,0.008386122367048481,0.008914375821887949,0.009446899163736144,0.009981589511387778,0.010516334906628486,0.011049022696923747,0.01157754792223358,0.012099821672549802,0.012613779382864173,0.013117389032520606,0.013608659216281297,0.014085647054943959,0.014546465913983337,0.014989292899452182,0.015412376101261826,0.015814041554967004,0.016192699894299622,0.016546852667927017,0.016875098295247547,0.01717613763747395,0.017448779161787983,0.017691943677971445,0.017904668628622843,0.018086111915848746,0.01823555524916691,0.018352407001267643,0.018436204560242482,0.01848661616889746,0.018503442243814255,0.01848661616889746,0.018436204560242482,0.018352407001267643,0.018235555249166906,0.018086111915848743,0.01790466862862284,0.017691943677971445,0.017448779161787983,0.01717613763747395,0.016875098295247547,0.016546852667927013,0.01619269989429962,0.015814041554967004,0.015412376101261826,0.014989292899452182,0.014546465913983333,0.014085647054943957,0.013608659216281292,0.013117389032520603,0.012613779382864171,0.012099821672549799,0.011577547922233578,0.011049022696923736,0.010516334906628481,0.009981589511387777,0.00944689916373614,0.008914375821887949,0.008386122367048474,0.007864224258232131,0.007350741257814013,0.006847699260753151,0.006357082260006297,0.005880824480101694,0.005420802710165682,0.004978828866892736,0.0045566428170266,0.004155905487878263,0.0037781922932518678,0.003424986900885115,0.0030976753661425497,0.002797540655233536,0.002525757579667078,0.0022833881620101647,0.0020713774512907237,0.001890549804587907,0.0017416056494886669,0.0016251187401673615,0.0015415339178727334,0.0014911653845916045,0.0014741954966090763};
+
+const xip_fir_v7_2_pattern design_1_fir_compiler_0_1_chanpats[1] = {P_BASIC};
+
+static xip_fir_v7_2_config gen_design_1_fir_compiler_0_1_config() {
+  xip_fir_v7_2_config config;
+  config.name                = "design_1_fir_compiler_0_1";
+  config.filter_type         = 2;
+  config.rate_change         = XIP_FIR_INTEGER_RATE;
+  config.interp_rate         = 1;
+  config.decim_rate          = 10;
+  config.zero_pack_factor    = 1;
+  config.coeff               = &design_1_fir_compiler_0_1_coefficients[0];
+  config.coeff_padding       = 9;
+  config.num_coeffs          = 101;
+  config.coeff_sets          = 1;
+  config.reloadable          = 0;
+  config.is_halfband         = 0;
+  config.quantization        = XIP_FIR_QUANTIZED_ONLY;
+  config.coeff_width         = 16;
+  config.coeff_fract_width   = 21;
+  config.chan_seq            = XIP_FIR_BASIC_CHAN_SEQ;
+  config.num_channels        = 1;
+  config.init_pattern        = design_1_fir_compiler_0_1_chanpats[0];
+  config.num_paths           = 1;
+  config.data_width          = 43;
+  config.data_fract_width    = 0;
+  config.output_rounding_mode= XIP_FIR_CONVERGENT_EVEN;
+  config.output_width        = 16;
+  config.output_fract_width  = 0,
+  config.config_method       = XIP_FIR_CONFIG_SINGLE;
+  return config;
+}
+
+const xip_fir_v7_2_config design_1_fir_compiler_0_1_config = gen_design_1_fir_compiler_0_1_config();
+
