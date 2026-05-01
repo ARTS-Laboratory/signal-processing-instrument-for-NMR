@@ -1,5 +1,4 @@
 import matplotlib
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from t2_decay import *
 from scipy.signal import wiener, resample

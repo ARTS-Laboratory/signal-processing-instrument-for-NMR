@@ -18,16 +18,17 @@ Before anything, I set up the container as per instructions in `signal-processin
 make create-podman
 ```
 
-2. Enter the container
-
-```bash
-distrobox-enter xilinx-dev-22
-```
-3. Add your user to the dialout user group
+2. Add your user to the dialout user group
 
 ```bash
 sudo adduser <username> dialout # for ubuntu
 sudo usermod -a -G dialout <username> # some other distros
+```
+
+3. Enter the container (must be done every time you want to use PetaLinux/Vivado)
+
+```bash
+distrobox-enter xilinx-dev-22
 ```
 
 ## Install Vivado and Generate Bitstream
